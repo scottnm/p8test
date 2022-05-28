@@ -33,11 +33,17 @@ function _init()
 end
 
 g_test_delay = 0
+g_last_update_done = false
+g_last_draw_done = false
 function _update()
     g_test_delay += 1
     if g_test_delay >= 3 then
         run_next_test()
         g_test_delay = 0
+    end
+
+    if g_last_update_done and g_last_draw_done then
+        stop()
     end
 end
 
@@ -46,6 +52,34 @@ function format_test_result(test)
         return test.test_name.." - [pass]"
     else
         return test.test_name.." - [fail]: " .. test.test_result.result
+    end
+end
+
+function get_testrun_status()
+    local run = 0
+    local passed = 0
+
+    for i=1,count(g_tests) do
+        local test = g_tests[i]
+        if test.test_result == nil then
+            break
+        end
+
+        run += 1
+        if test.test_result.result == nil then
+            passed += 1
+        end
+    end
+
+    return { run=run, passed=passed, failed=(run-passed), total=count(g_tests) }
+end
+
+function get_final_status_message()
+    final_status = get_testrun_status()
+    if final_status.total == final_status.passed then
+        return "All "..final_status.total.." test(s) passed!"
+    else
+        return "("..final_status.failed.."/"..final_status.total..") test(s) failed!"
     end
 end
 
@@ -68,6 +102,11 @@ function run_next_test()
         printh(curr_test.suite_name)
     end
     printh("    "..format_test_result(curr_test))
+
+    if g_curr_test_idx > count(g_tests) then
+        printh(get_final_status_message())
+        g_last_update_done = true
+    end
 end
 
 function _draw()
@@ -85,5 +124,11 @@ function _draw()
         end
 
         print("    "..format_test_result(test))
+    end
+
+    if g_curr_test_idx > count(g_tests) then
+        print("")
+        print(get_final_status_message())
+        g_last_draw_done = true
     end
 end
