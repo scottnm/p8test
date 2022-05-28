@@ -11,4 +11,4 @@ __lua__
 #include test.lua
 -- ^^^^ - the user-provided tests for that game code goes here
 
-#include testrunner_src/testrunner.lua
+#include testrunner_src/testmain.lua
