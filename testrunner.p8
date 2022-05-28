@@ -41,14 +41,33 @@ function _update()
     end
 end
 
+function format_test_result(test)
+    if test.test_result.result == nil then
+        return test.test_name.." - [pass]"
+    else
+        return test.test_name.." - [fail]: " .. test.test_result.result
+    end
+end
+
 function run_next_test()
     if g_curr_test_idx > count(g_tests) then
         return
     end
 
+    local curr_test = g_tests[g_curr_test_idx]
+    local test_suite_changed =
+        g_curr_test_idx == 1 or
+        g_tests[g_curr_test_idx-1].suite_name != curr_test.suite_name
+
+
     local test_result = g_tests[g_curr_test_idx].test()
     g_tests[g_curr_test_idx].test_result = { result=test_result}
     g_curr_test_idx += 1
+
+    if test_suite_changed then
+        printh(curr_test.suite_name)
+    end
+    printh("    "..format_test_result(curr_test))
 end
 
 function _draw()
@@ -65,12 +84,6 @@ function _draw()
             last_test_suite = test.suite_name
         end
 
-        local test_result = nil
-        if test.test_result.result == nil then
-            test_result = "[PASS]" 
-        else
-            test_result = "[FAIL] "..test.test_result.result
-        end
-        print("    "..test.test_name.." - "..test_result)
+        print("    "..format_test_result(test))
     end
 end
