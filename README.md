@@ -8,13 +8,9 @@ the results in the pico-8 window or directly to your console
 
 ## Demo
 
-Here's a demo outputting to the pico-8 console
-
-![demo gif of pico8 console output](demo_images/pico8console.gif)
-
-Here's a demo outputting to your own console
-
-![demo gif of windows console output](demo_images/winconsole.gif)
+| Output to pico-8 console | Output to your own console |
+|-|-|
+|![demo gif of pico8 console output](demo_images/pico8console.gif) | ![demo gif of windows console output](demo_images/winconsole.gif) |
 
 ## How to
 
