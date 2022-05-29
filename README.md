@@ -16,7 +16,7 @@ the results in the pico-8 window or directly to your console
 
 ### Setup P8Test
 
-P8Test is unceremoniously simple. All you need to do is download the `p8test` folder from this repo and then setup
+P8Test is unceremoniously simple. To setup...
 
 1. Download the `p8test` folder to your pico8 game's working directory
 2. Copy `p8test.p8` to your pico8 game's working directory or create your own test runner cart with whatever name
